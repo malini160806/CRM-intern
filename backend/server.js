@@ -96,6 +96,10 @@ const PORT = process.env.PORT || 5000;
 const { startReminderCron } = require('./cron/reminderCron');
 startReminderCron();
 
-httpServer.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+  httpServer.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+module.exports = app;
