@@ -36,7 +36,7 @@ const DealDetails = () => {
     const fetchDeal = async () => {
       try {
         const user = JSON.parse(localStorage.getItem('user'));
-        const response = await axios.get(`http://localhost:5001/api/deals/${id}`, {
+        const response = await axios.get(`/api/deals/${id}`, {
           headers: { Authorization: `Bearer ${user.token}` }
         });
         setDeal(response.data);

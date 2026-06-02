@@ -90,8 +90,8 @@ const CommandCenter = () => {
         const headers = { Authorization: `Bearer ${token}` };
         
         const [dealsRes, leadsRes] = await Promise.all([
-          axios.get('http://localhost:5001/api/deals', { headers }).catch(() => ({ data: [] })),
-          axios.get('http://localhost:5001/api/leads', { headers }).catch(() => ({ data: [] }))
+          axios.get('/api/deals', { headers }).catch(() => ({ data: [] })),
+          axios.get('/api/leads', { headers }).catch(() => ({ data: [] }))
         ]);
         
         setDeals(dealsRes.data);
