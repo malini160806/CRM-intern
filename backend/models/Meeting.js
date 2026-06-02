@@ -1,43 +1,64 @@
 const mongoose = require('mongoose');
 
-const meetingSchema = new mongoose.Schema(
-  {
-    title: {
-      type: String,
-      required: [true, 'Please add a title'],
-    },
-    lead: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Lead',
-      required: true,
-    },
-    scheduledDate: {
-      type: Date,
-      required: true,
-    },
-    duration: {
-      type: Number, // in minutes
-      default: 30,
-    },
-    status: {
-      type: String,
-      enum: ['Scheduled', 'Completed', 'Cancelled'],
-      default: 'Scheduled',
-    },
-    recordingUrl: String,
-    transcript: String,
-    aiSummary: {
-      clientRequirements: String,
-      budget: String,
-      timeline: String,
-      painPoints: String,
-      nextActionItems: [String],
-      overallSummary: String,
-    },
+const meetingSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: [true, 'Please add a meeting title']
   },
-  {
-    timestamps: true,
+  scheduledDate: {
+    type: Date,
+    required: [true, 'Please add a scheduled date']
+  },
+  startTime: {
+    type: Date,
+    required: [true, 'Please add a start time']
+  },
+  endTime: {
+    type: Date,
+    required: [true, 'Please add an end time']
+  },
+  location: {
+    type: String,
+    default: 'Online'
+  },
+  description: {
+    type: String
+  },
+  participants: [String],
+  status: {
+    type: String,
+    enum: ['Upcoming', 'Completed', 'Cancelled'],
+    default: 'Upcoming'
+  },
+  meetingLink: {
+    type: String
+  },
+  notes: {
+    type: String,
+    default: ''
+  },
+  outcome: {
+    type: String,
+    enum: ['Pending', 'Completed', 'Rescheduled', 'Cancelled', 'No Show'],
+    default: 'Pending'
+  },
+  followUpActions: {
+    type: String
+  },
+  lead: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Lead',
+    required: [true, 'Please link a lead to this meeting']
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   }
-);
+}, {
+  timestamps: true,
+  collection: 'meetings'
+});
 
-module.exports = mongoose.model('Meeting', meetingSchema);
+// Avoid OverwriteModelError
+module.exports = mongoose.models.CRMMeeting || mongoose.model('CRMMeeting', meetingSchema);

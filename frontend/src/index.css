@@ -2,26 +2,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @theme {
-  --color-primary-50: #f0f9ff;
-  --color-primary-100: #e0f2fe;
-  --color-primary-200: #bae6fd;
-  --color-primary-300: #7dd3fc;
-  --color-primary-400: #38bdf8;
-  --color-primary-500: #0ea5e9;
-  --color-primary-600: #0284c7;
-  --color-primary-700: #0369a1;
-  --color-primary-800: #075985;
-  --color-primary-900: #0c4a6e;
+  --color-primary-50: #f5f5f7;
+  --color-primary-100: #e8e8ed;
+  --color-primary-200: #d1d1d6;
+  --color-primary-300: #c7c7cc;
+  --color-primary-400: #aeaeb2;
+  --color-primary-500: #000000;
+  --color-primary-600: #1d1d1f;
+  --color-primary-700: #333336;
+  --color-primary-800: #424245;
+  --color-primary-900: #515154;
   
-  --color-dark-bg: #0f172a;
-  --color-dark-card: #1e293b;
-  --color-dark-border: #334155;
-  --color-dark-text: #f8fafc;
+  --color-dark-bg: #000000;
+  --color-dark-card: #1c1c1e;
+  --color-dark-border: #38383a;
+  --color-dark-text: #f5f5f7;
 }
+
+@custom-variant dark (&:is(.dark *));
 
 @layer base {
   body {
-    @apply font-['Inter'] bg-slate-50 text-slate-900 transition-colors duration-300;
+    @apply font-['Inter'] bg-white text-[#1d1d1f] antialiased transition-colors duration-300;
+    letter-spacing: -0.015em;
   }
   
   body.dark {
@@ -30,30 +33,27 @@
 }
 
 @layer components {
+  /* Renaming glass-card to a clean card but keeping the class name so we don't break the whole app instantly */
   .glass-card {
-    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl rounded-2xl;
-  }
-  
-  .dark .glass-card {
-    @apply bg-dark-card/70 border-dark-border/50;
+    @apply bg-white border border-[#e5e5ea] shadow-sm rounded-2xl transition-all duration-300 dark:bg-dark-card dark:border-dark-border dark:shadow-none;
   }
   
   .btn-primary {
-    @apply bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98];
+    @apply bg-[#0071e3] hover:bg-[#0077ed] text-white font-semibold py-2.5 px-5 rounded-full transition-all duration-200;
+  }
+  
+  .dark .btn-primary {
+    @apply bg-[#0a84ff] hover:bg-[#007aff];
   }
   
   .input-field {
-    @apply bg-white border border-slate-200 rounded-lg py-2 px-4 focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all;
-  }
-  
-  .dark .input-field {
-    @apply bg-slate-800 border-slate-700 text-white;
+    @apply w-full bg-white border border-[#d2d2d7] rounded-xl py-3 px-4 focus:ring-4 focus:ring-[#0071e3]/20 focus:border-[#0071e3] outline-none transition-all dark:bg-[#1c1c1e] dark:border-[#38383a] dark:text-white dark:focus:ring-[#0a84ff]/20 dark:focus:border-[#0a84ff];
   }
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -61,9 +61,9 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-300 rounded-full hover:bg-slate-400;
+  @apply bg-[#d2d2d7] rounded-full;
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  @apply bg-slate-700 hover:bg-slate-600;
+  @apply bg-[#424245];
 }

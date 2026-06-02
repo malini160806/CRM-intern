@@ -1,0 +1,230 @@
+[2026-05-14T09:56:58.416Z] CRMMeeting validation failed: endTime: Please add an end time, startTime: Please add a start time
+ValidationError: CRMMeeting validation failed: endTime: Please add an end time, startTime: Please add a start time
+    at model.validate (C:\Users\malin\Documents\CRM\backend\node_modules\mongoose\lib\document.js:2864:36)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async model.$__save (C:\Users\malin\Documents\CRM\backend\node_modules\mongoose\lib\model.js:393:7)
+    at async model.save (C:\Users\malin\Documents\CRM\backend\node_modules\mongoose\lib\model.js:667:5)
+    at async model.create (C:\Users\malin\Documents\CRM\backend\node_modules\mongoose\lib\model.js:2747:5)
+    at async exports.createMeeting (C:\Users\malin\Documents\CRM\backend\controllers\meetingController.js:21:21)
+
+[2026-05-14T16:49:23.271Z] Call validation failed: startTime: Cast to date failed for value "150520-05-15T23:00" (type string) at path "startTime"
+ValidationError: Call validation failed: startTime: Cast to date failed for value "150520-05-15T23:00" (type string) at path "startTime"
+    at Document.invalidate (C:\Users\malin\Documents\CRM\backend\node_modules\mongoose\lib\document.js:3444:32)
+    at model.$set (C:\Users\malin\Documents\CRM\backend\node_modules\mongoose\lib\document.js:1530:12)
+    at model.$set (C:\Users\malin\Documents\CRM\backend\node_modules\mongoose\lib\document.js:1170:16)
+    at model.Document (C:\Users\malin\Documents\CRM\backend\node_modules\mongoose\lib\document.js:181:12)
+    at model.Model (C:\Users\malin\Documents\CRM\backend\node_modules\mongoose\lib\model.js:137:12)
+    at new model (C:\Users\malin\Documents\CRM\backend\node_modules\mongoose\lib\model.js:4861:15)
+    at model.create (C:\Users\malin\Documents\CRM\backend\node_modules\mongoose\lib\model.js:2744:16)
+    at exports.createCall (C:\Users\malin\Documents\CRM\backend\controllers\callController.js:21:29)
+    at Layer.handleRequest (C:\Users\malin\Documents\CRM\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\malin\Documents\CRM\backend\node_modules\router\lib\route.js:157:13)
+
+[2026-05-14T16:49:46.157Z] Call validation failed: startTime: Cast to date failed for value "61000-02-20T23:00" (type string) at path "startTime"
+ValidationError: Call validation failed: startTime: Cast to date failed for value "61000-02-20T23:00" (type string) at path "startTime"
+    at Document.invalidate (C:\Users\malin\Documents\CRM\backend\node_modules\mongoose\lib\document.js:3444:32)
+    at model.$set (C:\Users\malin\Documents\CRM\backend\node_modules\mongoose\lib\document.js:1530:12)
+    at model.$set (C:\Users\malin\Documents\CRM\backend\node_modules\mongoose\lib\document.js:1170:16)
+    at model.Document (C:\Users\malin\Documents\CRM\backend\node_modules\mongoose\lib\document.js:181:12)
+    at model.Model (C:\Users\malin\Documents\CRM\backend\node_modules\mongoose\lib\model.js:137:12)
+    at new model (C:\Users\malin\Documents\CRM\backend\node_modules\mongoose\lib\model.js:4861:15)
+    at model.create (C:\Users\malin\Documents\CRM\backend\node_modules\mongoose\lib\model.js:2744:16)
+    at exports.createCall (C:\Users\malin\Documents\CRM\backend\controllers\callController.js:21:29)
+    at Layer.handleRequest (C:\Users\malin\Documents\CRM\backend\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\malin\Documents\CRM\backend\node_modules\router\lib\route.js:157:13)
+
+[2026-05-16T09:37:28.673Z] request entity too large
+PayloadTooLargeError: request entity too large
+    at readStream (C:\Users\malin\Documents\CRM\backend\node_modules\raw-body\index.js:163:17)
+    at getRawBody (C:\Users\malin\Documents\CRM\backend\node_modules\raw-body\index.js:116:12)
+    at read (C:\Users\malin\Documents\CRM\backend\node_modules\body-parser\lib\read.js:113:3)
+    at jsonParser (C:\Users\malin\Documents\CRM\backend\node_modules\body-parser\lib\types\json.js:88:5)
+    at Layer.handleRequest (C:\Users\malin\Documents\CRM\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:342:13)
+    at C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:291:5)
+    at router.handle (C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:186:3)
+
+[2026-05-16T09:37:33.369Z] request entity too large
+PayloadTooLargeError: request entity too large
+    at readStream (C:\Users\malin\Documents\CRM\backend\node_modules\raw-body\index.js:163:17)
+    at getRawBody (C:\Users\malin\Documents\CRM\backend\node_modules\raw-body\index.js:116:12)
+    at read (C:\Users\malin\Documents\CRM\backend\node_modules\body-parser\lib\read.js:113:3)
+    at jsonParser (C:\Users\malin\Documents\CRM\backend\node_modules\body-parser\lib\types\json.js:88:5)
+    at Layer.handleRequest (C:\Users\malin\Documents\CRM\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:342:13)
+    at C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:291:5)
+    at router.handle (C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:186:3)
+
+[2026-05-16T09:40:18.269Z] request entity too large
+PayloadTooLargeError: request entity too large
+    at readStream (C:\Users\malin\Documents\CRM\backend\node_modules\raw-body\index.js:163:17)
+    at getRawBody (C:\Users\malin\Documents\CRM\backend\node_modules\raw-body\index.js:116:12)
+    at read (C:\Users\malin\Documents\CRM\backend\node_modules\body-parser\lib\read.js:113:3)
+    at jsonParser (C:\Users\malin\Documents\CRM\backend\node_modules\body-parser\lib\types\json.js:88:5)
+    at Layer.handleRequest (C:\Users\malin\Documents\CRM\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:342:13)
+    at C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:291:5)
+    at router.handle (C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:186:3)
+
+[2026-05-16T09:40:29.014Z] request entity too large
+PayloadTooLargeError: request entity too large
+    at readStream (C:\Users\malin\Documents\CRM\backend\node_modules\raw-body\index.js:163:17)
+    at getRawBody (C:\Users\malin\Documents\CRM\backend\node_modules\raw-body\index.js:116:12)
+    at read (C:\Users\malin\Documents\CRM\backend\node_modules\body-parser\lib\read.js:113:3)
+    at jsonParser (C:\Users\malin\Documents\CRM\backend\node_modules\body-parser\lib\types\json.js:88:5)
+    at Layer.handleRequest (C:\Users\malin\Documents\CRM\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:342:13)
+    at C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:291:5)
+    at router.handle (C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:186:3)
+
+[2026-05-16T09:41:57.299Z] request entity too large
+PayloadTooLargeError: request entity too large
+    at readStream (C:\Users\malin\Documents\CRM\backend\node_modules\raw-body\index.js:163:17)
+    at getRawBody (C:\Users\malin\Documents\CRM\backend\node_modules\raw-body\index.js:116:12)
+    at read (C:\Users\malin\Documents\CRM\backend\node_modules\body-parser\lib\read.js:113:3)
+    at jsonParser (C:\Users\malin\Documents\CRM\backend\node_modules\body-parser\lib\types\json.js:88:5)
+    at Layer.handleRequest (C:\Users\malin\Documents\CRM\backend\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:342:13)
+    at C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:297:9
+    at processParams (C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:582:12)
+    at next (C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:291:5)
+    at router.handle (C:\Users\malin\Documents\CRM\backend\node_modules\router\index.js:186:3)
+
+[2026-05-18T09:49:36.815Z] Image upload failed
+Error: Image upload failed
+    at uploadImage (C:\Users\malin\Documents\CRM\backend\utils\cloudinary.js:17:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async updateUserProfile (C:\Users\malin\Documents\CRM\backend\controllers\userController.js:16:26)
+
+[2026-05-18T09:51:35.899Z] Image upload failed
+Error: Image upload failed
+    at uploadImage (C:\Users\malin\Documents\CRM\backend\utils\cloudinary.js:17:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async updateUserProfile (C:\Users\malin\Documents\CRM\backend\controllers\userController.js:16:26)
+
+[2026-05-18T09:55:07.434Z] Image upload failed
+Error: Image upload failed
+    at uploadImage (C:\Users\malin\Documents\CRM\backend\utils\cloudinary.js:17:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async updateUserProfile (C:\Users\malin\Documents\CRM\backend\controllers\userController.js:16:26)
+
+[2026-05-18T09:57:15.951Z] next is not a function
+TypeError: next is not a function
+    at model.<anonymous> (C:\Users\malin\Documents\CRM\backend\models\User.js:55:5)
+    at Kareem.execPre (C:\Users\malin\Documents\CRM\backend\node_modules\kareem\index.js:59:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+[2026-05-18T09:57:20.510Z] next is not a function
+TypeError: next is not a function
+    at model.<anonymous> (C:\Users\malin\Documents\CRM\backend\models\User.js:55:5)
+    at Kareem.execPre (C:\Users\malin\Documents\CRM\backend\node_modules\kareem\index.js:59:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+[2026-05-18T10:00:23.482Z] next is not a function
+TypeError: next is not a function
+    at model.<anonymous> (C:\Users\malin\Documents\CRM\backend\models\User.js:55:5)
+    at Kareem.execPre (C:\Users\malin\Documents\CRM\backend\node_modules\kareem\index.js:59:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+[2026-05-18T10:00:33.815Z] next is not a function
+TypeError: next is not a function
+    at model.<anonymous> (C:\Users\malin\Documents\CRM\backend\models\User.js:55:5)
+    at Kareem.execPre (C:\Users\malin\Documents\CRM\backend\node_modules\kareem\index.js:59:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+[2026-05-18T10:01:12.587Z] next is not a function
+TypeError: next is not a function
+    at model.<anonymous> (C:\Users\malin\Documents\CRM\backend\models\User.js:55:12)
+    at Kareem.execPre (C:\Users\malin\Documents\CRM\backend\node_modules\kareem\index.js:59:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+[2026-05-18T10:01:19.068Z] next is not a function
+TypeError: next is not a function
+    at model.<anonymous> (C:\Users\malin\Documents\CRM\backend\models\User.js:55:12)
+    at Kareem.execPre (C:\Users\malin\Documents\CRM\backend\node_modules\kareem\index.js:59:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+[2026-05-18T10:01:41.430Z] next is not a function
+TypeError: next is not a function
+    at model.<anonymous> (C:\Users\malin\Documents\CRM\backend\models\User.js:55:12)
+    at Kareem.execPre (C:\Users\malin\Documents\CRM\backend\node_modules\kareem\index.js:59:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+[2026-05-20T06:16:35.267Z] next is not a function
+TypeError: next is not a function
+    at model.<anonymous> (C:\Users\malin\Documents\CRM\backend\models\Lead.js:110:3)
+    at Kareem.execPre (C:\Users\malin\Documents\CRM\backend\node_modules\kareem\index.js:59:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+[2026-05-20T06:25:45.480Z] next is not a function
+TypeError: next is not a function
+    at model.<anonymous> (C:\Users\malin\Documents\CRM\backend\models\Lead.js:110:3)
+    at Kareem.execPre (C:\Users\malin\Documents\CRM\backend\node_modules\kareem\index.js:59:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+[2026-05-20T06:25:52.078Z] next is not a function
+TypeError: next is not a function
+    at model.<anonymous> (C:\Users\malin\Documents\CRM\backend\models\Lead.js:110:3)
+    at Kareem.execPre (C:\Users\malin\Documents\CRM\backend\node_modules\kareem\index.js:59:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+[2026-05-20T06:28:26.326Z] next is not a function
+TypeError: next is not a function
+    at model.<anonymous> (C:\Users\malin\Documents\CRM\backend\models\Lead.js:110:3)
+    at Kareem.execPre (C:\Users\malin\Documents\CRM\backend\node_modules\kareem\index.js:59:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+[2026-05-20T06:31:19.348Z] next is not a function
+TypeError: next is not a function
+    at model.<anonymous> (C:\Users\malin\Documents\CRM\backend\models\Lead.js:110:3)
+    at Kareem.execPre (C:\Users\malin\Documents\CRM\backend\node_modules\kareem\index.js:59:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+[2026-05-20T08:10:38.251Z] Cannot read properties of null (reading '_id')
+TypeError: Cannot read properties of null (reading '_id')
+    at assignSalesPersonToLead (C:\Users\malin\Documents\CRM\backend\controllers\assignmentController.js:81:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+[2026-05-20T08:10:42.970Z] Cannot read properties of null (reading '_id')
+TypeError: Cannot read properties of null (reading '_id')
+    at assignSalesPersonToLead (C:\Users\malin\Documents\CRM\backend\controllers\assignmentController.js:81:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+[2026-05-22T04:11:15.354Z] Cannot read properties of null (reading '_id')
+TypeError: Cannot read properties of null (reading '_id')
+    at assignSalesPersonToLead (C:\Users\malin\Documents\CRM\backend\controllers\assignmentController.js:81:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+[2026-05-22T04:11:16.806Z] Cannot read properties of null (reading '_id')
+TypeError: Cannot read properties of null (reading '_id')
+    at assignSalesPersonToLead (C:\Users\malin\Documents\CRM\backend\controllers\assignmentController.js:81:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+[2026-05-22T04:11:17.614Z] Cannot read properties of null (reading '_id')
+TypeError: Cannot read properties of null (reading '_id')
+    at assignSalesPersonToLead (C:\Users\malin\Documents\CRM\backend\controllers\assignmentController.js:81:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+[2026-05-22T04:11:17.783Z] Cannot read properties of null (reading '_id')
+TypeError: Cannot read properties of null (reading '_id')
+    at assignSalesPersonToLead (C:\Users\malin\Documents\CRM\backend\controllers\assignmentController.js:81:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+[2026-05-22T04:11:17.946Z] Cannot read properties of null (reading '_id')
+TypeError: Cannot read properties of null (reading '_id')
+    at assignSalesPersonToLead (C:\Users\malin\Documents\CRM\backend\controllers\assignmentController.js:81:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+[2026-05-22T04:11:18.161Z] Cannot read properties of null (reading '_id')
+TypeError: Cannot read properties of null (reading '_id')
+    at assignSalesPersonToLead (C:\Users\malin\Documents\CRM\backend\controllers\assignmentController.js:81:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+

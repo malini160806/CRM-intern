@@ -7,14 +7,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please add a name'],
     },
-    companyName: {
-      type: String,
-      required: [true, 'Please add a company name'],
-    },
     email: {
       type: String,
       required: [true, 'Please add an email'],
       unique: true,
+      trim: true,
+      lowercase: true,
     },
     password: {
       type: String,
@@ -22,9 +20,35 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['admin', 'salesperson'],
-      default: 'salesperson',
+      enum: ['CEO', 'SalesLead', 'SalesPerson', 'admin', 'salesLead', 'salesPerson'],
+      default: 'SalesPerson',
     },
+    assignedSalesLead: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      default: null,
+    },
+    assignedSalesPersons: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
+    // CEO Fields
+    companyName: String,
+    companySize: String,
+    industry: String,
+    website: String,
+    adminCode: String,
+    // Sales Lead Fields
+    department: String,
+    teamSize: String,
+    managerId: String,
+    // Sales Person Fields
+    employeeId: String,
+    salesRegion: String,
+    reportingManager: String,
+    
     profilePic: {
       type: String,
       default: '',
@@ -32,13 +56,14 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    collection: 'users'
   }
 );
 
 // Hash password before saving
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function () {
   if (!this.isModified('password')) {
-    next();
+    return;
   }
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);

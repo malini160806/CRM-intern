@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { loginStart, loginSuccess, loginFailure } from '../store/slices/authSlice';
 import axios from 'axios';
+import { GoogleLogin } from '@react-oauth/google';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -17,12 +18,45 @@ const Login = () => {
     e.preventDefault();
     dispatch(loginStart());
     try {
-      const response = await axios.post('http://localhost:5001/api/auth/login', { email, password });
+      const response = await axios.post('/api/auth/login', { email, password });
       dispatch(loginSuccess(response.data));
-      navigate('/');
+
+      const userRole = response.data.role;
+      const dashboardPath = {
+        'CEO': '/dashboard/ceo',
+        'SalesLead': '/dashboard/sales-lead',
+        'SalesPerson': '/dashboard/sales-person'
+      }[userRole] || '/';
+
+      navigate(dashboardPath);
     } catch (err) {
       dispatch(loginFailure(err.response?.data?.message || 'Login failed'));
     }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    dispatch(loginStart());
+    try {
+      const response = await axios.post('/api/auth/google', {
+        idToken: credentialResponse.credential
+      });
+      dispatch(loginSuccess(response.data));
+
+      const userRole = response.data.role;
+      const dashboardPath = {
+        'CEO': '/dashboard/ceo',
+        'SalesLead': '/dashboard/sales-lead',
+        'SalesPerson': '/dashboard/sales-person'
+      }[userRole] || '/';
+
+      navigate(dashboardPath);
+    } catch (err) {
+      dispatch(loginFailure(err.response?.data?.message || 'Google login failed'));
+    }
+  };
+
+  const handleGoogleError = () => {
+    dispatch(loginFailure('Google login was unsuccessful. Try again.'));
   };
 
   return (
@@ -83,7 +117,7 @@ const Login = () => {
 
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center space-x-2 cursor-pointer">
-              <input type="checkbox" className="w-4 h-4 rounded text-primary-600 border-slate-300 focus:ring-primary-500" />
+              <input type="checkbox" className="w-4 h-4 rounded text-primary-500 border-slate-300 focus:ring-primary-500" />
               <span className="text-slate-600">Remember me</span>
             </label>
             <Link to="/forgot-password" title="Forgot Password" className="text-primary-600 hover:text-primary-700 font-medium">
@@ -109,10 +143,16 @@ const Login = () => {
           </div>
         </div>
 
-        <button className="w-full py-2.5 px-4 border border-slate-200 rounded-lg flex items-center justify-center space-x-3 hover:bg-slate-50 transition-colors">
-          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/smartlock/google.svg" alt="Google" className="w-5 h-5" />
-          <span className="text-slate-700 font-medium">Google OAuth</span>
-        </button>
+        <div className="flex justify-center">
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleError}
+            useOneTap
+            theme="filled_blue"
+            shape="pill"
+            width="320"
+          />
+        </div>
 
         <p className="text-center text-sm text-slate-600">
           Don't have an account?{' '}

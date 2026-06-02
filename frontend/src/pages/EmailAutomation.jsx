@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import { 
   Send, 
   Sparkles, 
@@ -9,7 +10,8 @@ import {
   ChevronDown,
   Wand2,
   Paperclip,
-  Clock
+  Clock,
+  Loader2
 } from 'lucide-react';
 
 const EmailAutomation = () => {
@@ -18,29 +20,101 @@ const EmailAutomation = () => {
   const [isGenerating, setIsGenerating] = useState(false);
 
   const templates = [];
+  const [scheduledEmails, setScheduledEmails] = useState([]);
+  const [showSendModal, setShowSendModal] = useState(false);
+  const [showScheduleModal, setShowScheduleModal] = useState(false);
+  const [recipientEmail, setRecipientEmail] = useState('');
+  const [scheduleTime, setScheduleTime] = useState('');
 
-  const handleGenerate = () => {
+  const fetchScheduled = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const response = await axios.get('/api/email/scheduled', {
+        headers: { Authorization: `Bearer ${user.token}` }
+      });
+      setScheduledEmails(response.data);
+    } catch (err) {
+      console.error('Failed to fetch scheduled emails', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchScheduled();
+  }, []);
+
+  const [isSending, setIsSending] = useState(false);
+
+  const handleGenerate = async () => {
+    if (!prompt.trim()) return;
     setIsGenerating(true);
-    // Mock AI generation
-    setTimeout(() => {
-      setGeneratedEmail(`Subject: Enhancing Your Workflow with AI Business CRM
-
-Dear [Client Name],
-
-It was great connecting with you recently. Following up on our discussion about [Topic], I wanted to share how our AI-powered CRM can specifically address the pain points we discussed, particularly in automating your lead qualification process.
-
-I've attached a brief overview of our platform's capabilities. Would you be open to a 15-minute demo next Wednesday to see it in action?
-
-Looking forward to hearing from you.
-
-Best regards,
-[Your Name]`);
+    try {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const response = await axios.post('/api/ai/chat', {
+        message: `Generate a professional, high-converting CRM email based on this prompt: "${prompt}". 
+                 Start with "Subject: " and then the email body. Use placeholders like [Client Name] and [Your Name].`,
+        history: []
+      }, {
+        headers: { Authorization: `Bearer ${user.token}` }
+      });
+      setGeneratedEmail(response.data.message);
+    } catch (err) {
+      console.error(err);
+      alert('Failed to generate email. Please try again.');
+    } finally {
       setIsGenerating(false);
-    }, 2000);
+    }
+  };
+
+  const handleSend = async () => {
+    if (!generatedEmail || !recipientEmail) return;
+    setIsSending(true);
+    try {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const response = await axios.post('/api/email/send', {
+        content: generatedEmail,
+        recipient: recipientEmail
+      }, {
+        headers: { Authorization: `Bearer ${user.token}` }
+      });
+      alert(response.data.message);
+      setShowSendModal(false);
+      setRecipientEmail('');
+    } catch (err) {
+      console.error(err);
+      alert('Failed to send email');
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  const handleSchedule = async () => {
+    if (!generatedEmail || !recipientEmail || !scheduleTime) return;
+    setIsSending(true);
+    try {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const response = await axios.post('/api/email/schedule', {
+        content: generatedEmail,
+        recipient: recipientEmail,
+        scheduleTime: scheduleTime
+      }, {
+        headers: { Authorization: `Bearer ${user.token}` }
+      });
+      alert(response.data.message);
+      setShowScheduleModal(false);
+      setRecipientEmail('');
+      setScheduleTime('');
+      fetchScheduled(); // Refresh the list
+    } catch (err) {
+      console.error(err);
+      alert('Failed to schedule email');
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500">
+    <>
+      <div className="space-y-8 animate-in fade-in duration-500">
       <div>
         <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Email Automation</h2>
         <p className="text-slate-500 dark:text-slate-400">Generate high-converting emails using AI tailored to each lead.</p>
@@ -50,29 +124,31 @@ Best regards,
         {/* Templates Sidebar */}
         <div className="lg:col-span-3 space-y-6">
           <div className="glass-card p-4">
-            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 px-2">Templates</h3>
+            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 px-2">Scheduled Emails</h3>
             <div className="space-y-3">
-              {templates.length > 0 ? (
-                templates.map((t, i) => (
-                  <button 
+              {scheduledEmails.length > 0 ? (
+                scheduledEmails.map((email, i) => (
+                  <div 
                     key={i} 
-                    className="w-full text-left p-3 rounded-xl bg-slate-50 border border-slate-100 hover:bg-primary-50 hover:text-primary-600 hover:border-primary-100 transition-all group flex items-center justify-between dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-primary-900/20 dark:hover:text-primary-400"
+                    className="w-full text-left p-3 rounded-xl bg-slate-50 border border-slate-100 dark:bg-slate-800 dark:border-slate-700 space-y-1"
                   >
-                    <span className="text-sm font-bold">{t.name}</span>
-                    <span className="text-[10px] px-2 py-1 bg-white rounded-lg text-slate-500 group-hover:bg-primary-100 group-hover:text-primary-600 dark:bg-slate-700 dark:text-slate-400">
-                      {t.type}
-                    </span>
-                  </button>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-black text-primary-600 uppercase tracking-widest">Scheduled</span>
+                      <span className="text-[10px] text-slate-400">{new Date(email.scheduleTime).toLocaleDateString()}</span>
+                    </div>
+                    <p className="text-xs font-bold text-slate-700 dark:text-slate-200 truncate">{email.recipient}</p>
+                    <p className="text-[10px] text-slate-500 line-clamp-1">{email.content.substring(0, 50)}...</p>
+                  </div>
                 ))
               ) : (
                 <div className="text-center py-6">
-                  <p className="text-xs text-slate-400">No templates saved yet.</p>
+                  <p className="text-xs text-slate-400">No emails scheduled.</p>
                 </div>
               )}
             </div>
             <button className="w-full mt-4 flex items-center justify-center space-x-2 py-2 border-2 border-dashed border-slate-200 rounded-lg text-slate-400 hover:border-primary-300 hover:text-primary-500 transition-all dark:border-slate-700">
-              <Layout className="w-4 h-4" />
-              <span className="text-sm font-bold">New Template</span>
+              <Clock className="w-4 h-4" />
+              <span className="text-sm font-bold">Manage Queue</span>
             </button>
           </div>
 
@@ -131,11 +207,14 @@ Best regards,
               </div>
             </div>
             
-            <div className="flex-1 p-6">
+            <div className="flex-1 p-6 flex flex-col">
               {generatedEmail ? (
-                <div className="whitespace-pre-wrap text-slate-700 font-serif leading-relaxed dark:text-slate-300">
-                  {generatedEmail}
-                </div>
+                <textarea
+                  className="flex-1 w-full p-0 bg-transparent border-none outline-none resize-none text-slate-700 font-serif leading-relaxed dark:text-slate-300 custom-scrollbar"
+                  value={generatedEmail}
+                  onChange={(e) => setGeneratedEmail(e.target.value)}
+                  placeholder="Edit your email here..."
+                />
               ) : (
                 <div className="h-full flex flex-col items-center justify-center text-slate-400">
                   <Mail className="w-12 h-12 mb-4 opacity-20" />
@@ -155,12 +234,20 @@ Best regards,
                 </button>
               </div>
               <div className="flex items-center space-x-3">
-                <button className="px-6 py-2 bg-slate-200 text-slate-700 font-bold rounded-lg hover:bg-slate-300 transition-all dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600">
+                <button 
+                  onClick={() => setShowScheduleModal(true)}
+                  disabled={!generatedEmail || isSending}
+                  className="px-6 py-2 bg-slate-200 text-slate-700 font-bold rounded-lg hover:bg-slate-300 transition-all dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600 disabled:opacity-50"
+                >
                   Schedule
                 </button>
-                <button className="btn-primary py-2 px-8 flex items-center space-x-2">
-                  <Send className="w-4 h-4" />
-                  <span>Send Now</span>
+                <button 
+                  onClick={() => setShowSendModal(true)}
+                  disabled={!generatedEmail || isSending}
+                  className="btn-primary py-2 px-8 flex items-center space-x-2 disabled:opacity-50"
+                >
+                  {isSending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                  <span>{isSending ? 'Sending...' : 'Send Now'}</span>
                 </button>
               </div>
             </div>
@@ -168,6 +255,88 @@ Best regards,
         </div>
       </div>
     </div>
+
+      {/* Send Modal */}
+      {showSendModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="glass-card w-full max-w-md p-8 space-y-6 animate-in zoom-in-95 duration-200">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Send Email Now</h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Recipient Email</label>
+                <input 
+                  type="email" 
+                  className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:border-slate-700 dark:text-white"
+                  placeholder="customer@example.com"
+                  value={recipientEmail}
+                  onChange={(e) => setRecipientEmail(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="flex space-x-3">
+              <button 
+                onClick={() => setShowSendModal(false)}
+                className="flex-1 py-3 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition-all"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={handleSend}
+                disabled={!recipientEmail || isSending}
+                className="flex-1 py-3 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-all disabled:opacity-50"
+              >
+                Send Now
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Schedule Modal */}
+      {showScheduleModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="glass-card w-full max-w-md p-8 space-y-6 animate-in zoom-in-95 duration-200">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Schedule Email</h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Recipient Email</label>
+                <input 
+                  type="email" 
+                  className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:border-slate-700 dark:text-white"
+                  placeholder="customer@example.com"
+                  value={recipientEmail}
+                  onChange={(e) => setRecipientEmail(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Schedule Time</label>
+                <input 
+                  type="datetime-local" 
+                  className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:border-slate-700 dark:text-white"
+                  value={scheduleTime}
+                  onChange={(e) => setScheduleTime(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="flex space-x-3">
+              <button 
+                onClick={() => setShowScheduleModal(false)}
+                className="flex-1 py-3 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition-all"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={handleSchedule}
+                disabled={!recipientEmail || !scheduleTime || isSending}
+                className="flex-1 py-3 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-all disabled:opacity-50"
+              >
+                Schedule
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
